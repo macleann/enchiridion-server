@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installation
 1. Clone this repository:
 ```
-git clone https://github.com/macleann/enchiridion-server.git
+git clone git@github.com:macleann/enchiridion-server.git
 ```
 2. Move to the directory:
 ```
