@@ -15,7 +15,7 @@ These instructions will get you a copy of the project up and running on your loc
 - Django 4.2+
 - Django Rest Framework 3.13.0+
 
-### Installation
+### Installation and Setup
 1. Clone this repository:
 ```
 git clone git@github.com:macleann/enchiridion-server.git
