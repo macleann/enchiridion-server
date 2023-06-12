@@ -29,12 +29,17 @@ cd enchiridion-server
 pipenv shell
 pipenv install
 ```
-4. Add `.env` file in the root of your project and insert your TMDB API Key and Django secret key:
+4. Add `.env` file in the root directory and insert your TMDB API Key and Django secret key:
 ```
 TMDB_API_KEY = your_tmdb_access_token
 SECRET_KEY = your_django_secret_key
 ```
-5. Run the server:
+5. Add `db.sqlite3` file in the root directory and seed it with data via the `seed_db.sh` script:
+```
+touch db.sqlite3
+./seed_db.sh
+```
+6. Run the server:
 ```
 python manage.py runserver
 ```
