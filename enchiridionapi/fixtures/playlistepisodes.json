@@ -1,0 +1,137 @@
+[
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 1,
+        "fields": {
+            "episode_id": 537624,
+            "playlist_id": 1,
+            "order_number": 1
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 2,
+        "fields": {
+            "episode_id": 537626,
+            "playlist_id": 1,
+            "order_number": 2
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 3,
+        "fields": {
+            "episode_id": 537631,
+            "playlist_id": 1,
+            "order_number": 3
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 4,
+        "fields": {
+            "episode_id": 537618,
+            "playlist_id": 1,
+            "order_number": 4
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 5,
+        "fields": {
+            "episode_id": 537634,
+            "playlist_id": 1,
+            "order_number": 5
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 6,
+        "fields": {
+            "episode_id": 537642,
+            "playlist_id": 1,
+            "order_number": 6
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 7,
+        "fields": {
+            "episode_id": 537640,
+            "playlist_id": 1,
+            "order_number": 7
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 8,
+        "fields": {
+            "episode_id": 537637,
+            "playlist_id": 1,
+            "order_number": 8
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 9,
+        "fields": {
+            "episode_id": 537638,
+            "playlist_id": 1,
+            "order_number": 9
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 10,
+        "fields": {
+            "episode_id": 537627,
+            "playlist_id": 1,
+            "order_number": 10
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 11,
+        "fields": {
+            "episode_id": 537621,
+            "playlist_id": 1,
+            "order_number": 11
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 12,
+        "fields": {
+            "episode_id": 537623,
+            "playlist_id": 1,
+            "order_number": 12
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 13,
+        "fields": {
+            "episode_id": 537632,
+            "playlist_id": 1,
+            "order_number": 13
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 14,
+        "fields": {
+            "episode_id": 537630,
+            "playlist_id": 1,
+            "order_number": 14
+        }
+    },
+    {
+        "model": "enchiridionapi.playlistepisode",
+        "pk": 15,
+        "fields": {
+            "episode_id": 537639,
+            "playlist_id": 1,
+            "order_number": 15
+        }
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "model": "enchiridionapi.playlist",
+        "pk": 1,
+        "fields": {
+            "user_id": 1,
+            "name": "Essential Season 1 Episodes Only",
+            "description": "Only the episodes that ultimately tie into the show's overall plot"
+        }
+    }
+]
