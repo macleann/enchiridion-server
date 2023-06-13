@@ -22,7 +22,8 @@ from enchiridionapi import views
 router = DefaultRouter(trailing_slash=False)
 router.register(r'episodes', views.EpisodeView, 'episode')
 router.register(r'seasons', views.SeasonView, 'season')
-router.register(r'playlists', views.PlaylistView, 'playlist')
+router.register(r'user-playlists', views.UserPlaylistView, 'user-playlist')
+router.register(r'playlists', views.PublicPlaylistView, 'playlist')
 
 urlpatterns = [
     path('', include(router.urls)),
