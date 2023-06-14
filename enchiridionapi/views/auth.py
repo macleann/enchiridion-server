@@ -24,7 +24,8 @@ def login_user(request):
         token = Token.objects.get(user=authenticated_user)
         data = {
             'valid': True,
-            'token': token.key
+            'token': token.key,
+            'id': authenticated_user.id
         }
         return Response(data, status=status.HTTP_200_OK)
     else:
@@ -40,6 +41,10 @@ def register_user(request):
       request -- The full HTTP request object
     '''
     try:
+        check_email = User.objects.filter(email=request.data['email']).first()
+        if check_email is not None:
+            return Response({ 'error': 'A user with this email already exists.' }, status=status.HTTP_400_BAD_REQUEST)
+        
         new_user = User.objects.create_user(
             username=request.data['username'],
             email=request.data['email'],
@@ -49,7 +54,7 @@ def register_user(request):
         )
 
         token = Token.objects.create(user=new_user)
-        data = { 'token': token.key }
+        data = { 'token': token.key, 'id': new_user.id }
         return Response(data, status=status.HTTP_201_CREATED)
     except IntegrityError:
-        return Response({ 'error': 'A user with this email or username already exists.' }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({ 'error': 'A user with this username already exists.' }, status=status.HTTP_400_BAD_REQUEST)
