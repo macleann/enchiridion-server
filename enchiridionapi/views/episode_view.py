@@ -1,6 +1,7 @@
 from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from enchiridionapi.serializers import EpisodeSerializer, LocalEpisodeSerializer
 from enchiridionapi.models import Episode
@@ -9,6 +10,8 @@ import requests, os
 TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 
 class EpisodeView(ViewSet):
+    permission_classes = [AllowAny]
+
     def list(self, request):
         """
         Gets a list of episodes from the local database
@@ -31,13 +34,6 @@ class EpisodeView(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Episode.DoesNotExist:
             return Response({"error": "Episode not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    def create(self, request):
-        serializer = LocalEpisodeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['get'])
     def tmdb_episodes(self, request, season_number=None):
