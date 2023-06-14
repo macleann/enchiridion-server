@@ -62,6 +62,8 @@ class UserPlaylistView(ViewSet):
         """Handles PUT requests for a playlist"""
         try:
             playlist = Playlist.objects.get(pk=pk)
+            if playlist.user_id != request.user.id:
+                return Response({"message": "You can only update your own playlists."}, status=status.HTTP_403_FORBIDDEN)
             # Get the new data from the request
             new_name = request.data.get('name')
             new_description = request.data.get('description')
@@ -122,6 +124,8 @@ class UserPlaylistView(ViewSet):
         """Handles DELETE requests for a single playlist"""
         try:
             playlist = Playlist.objects.get(pk=pk)
+            if playlist.user_id != request.user.id:
+                return Response({"message": "You can only delete your own playlists."}, status=status.HTTP_403_FORBIDDEN)
             playlist.delete()
             return Response({}, status=status.HTTP_204_NO_CONTENT)
         except Playlist.DoesNotExist:
