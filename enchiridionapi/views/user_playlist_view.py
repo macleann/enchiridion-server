@@ -108,6 +108,8 @@ class UserPlaylistView(ViewSet):
                         continue  # if fetching from TMDB API failed, skip this episode
 
                 # Now that we have the episode, add it to the playlist
+                print(f"Episode: {episode}")
+                print(f"Playlist: {playlist}")
                 PlaylistEpisode.objects.create(playlist=playlist, episode=episode, order_number=order_number)
 
             playlist.save()
