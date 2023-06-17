@@ -2,6 +2,8 @@
 from django.db import models
 
 class Episode(models.Model):
+    tmdb_id = models.IntegerField(unique=True)
+    series_id = models.IntegerField()
     season_number = models.IntegerField()
     episode_number = models.IntegerField()
     name = models.CharField(max_length=100)

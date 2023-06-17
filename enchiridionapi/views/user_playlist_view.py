@@ -30,11 +30,10 @@ class UserPlaylistView(ViewSet):
             series_id = episode_data.get('series_id')
             season_number = episode_data.get('season_number')
             episode_number = episode_data.get('episode_number')
-            id = episode_data.get('id')
             order_number = episode_data.get('order_number')
 
             try:
-                episode = Episode.objects.get(pk=id)
+                episode = Episode.objects.get(series_id=series_id, season_number=season_number, episode_number=episode_number)
             except Episode.DoesNotExist:
                 url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}'
                 headers = {
@@ -44,6 +43,8 @@ class UserPlaylistView(ViewSet):
                 tmdb_response = requests.get(url, headers=headers)
                 if tmdb_response.status_code == status.HTTP_200_OK:
                     episode_data = tmdb_response.json()
+                    episode_data['tmdb_id'] = episode_data['id']
+                    episode_data['series_id'] = series_id
                     serializer = LocalEpisodeSerializer(data=episode_data)
                     if serializer.is_valid(raise_exception=True):
                         episode = serializer.save()
@@ -86,7 +87,7 @@ class UserPlaylistView(ViewSet):
                 # Same logic for fetching/creating the episode as in the create method...
                 try:
                     # Check if episode exists in local DB
-                    episode = Episode.objects.get(season_number=season_number, episode_number=episode_number)
+                    episode = Episode.objects.get(series_id=series_id, season_number=season_number, episode_number=episode_number)
                 except Episode.DoesNotExist:
                     # If it does not exist, fetch it from TMDB API
                     url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}'
@@ -98,6 +99,8 @@ class UserPlaylistView(ViewSet):
                     if tmdb_response.status_code == 200:
                         # Parse the response into JSON
                         episode_data = tmdb_response.json()
+                        episode_data['tmdb_id'] = episode_data['id']
+                        episode_data['series_id'] = series_id
                         # And pass that JSON through the serializer
                         serializer = LocalEpisodeSerializer(data=episode_data)
                         if serializer.is_valid():

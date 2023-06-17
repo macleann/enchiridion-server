@@ -3,7 +3,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 1,
         "fields": {
-            "episode_id": 537624,
+            "episode_id": 1,
             "playlist_id": 1,
             "order_number": 1
         }
@@ -12,7 +12,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 2,
         "fields": {
-            "episode_id": 537626,
+            "episode_id": 2,
             "playlist_id": 1,
             "order_number": 2
         }
@@ -21,7 +21,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 3,
         "fields": {
-            "episode_id": 537631,
+            "episode_id": 3,
             "playlist_id": 1,
             "order_number": 3
         }
@@ -30,7 +30,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 4,
         "fields": {
-            "episode_id": 537618,
+            "episode_id": 4,
             "playlist_id": 1,
             "order_number": 4
         }
@@ -39,7 +39,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 5,
         "fields": {
-            "episode_id": 537634,
+            "episode_id": 5,
             "playlist_id": 1,
             "order_number": 5
         }
@@ -48,7 +48,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 6,
         "fields": {
-            "episode_id": 537642,
+            "episode_id": 6,
             "playlist_id": 1,
             "order_number": 6
         }
@@ -57,7 +57,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 7,
         "fields": {
-            "episode_id": 537640,
+            "episode_id": 7,
             "playlist_id": 1,
             "order_number": 7
         }
@@ -66,7 +66,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 8,
         "fields": {
-            "episode_id": 537637,
+            "episode_id": 8,
             "playlist_id": 1,
             "order_number": 8
         }
@@ -75,7 +75,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 9,
         "fields": {
-            "episode_id": 537638,
+            "episode_id": 9,
             "playlist_id": 1,
             "order_number": 9
         }
@@ -84,7 +84,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 10,
         "fields": {
-            "episode_id": 537627,
+            "episode_id": 10,
             "playlist_id": 1,
             "order_number": 10
         }
@@ -93,7 +93,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 11,
         "fields": {
-            "episode_id": 537621,
+            "episode_id": 11,
             "playlist_id": 1,
             "order_number": 11
         }
@@ -102,7 +102,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 12,
         "fields": {
-            "episode_id": 537623,
+            "episode_id": 12,
             "playlist_id": 1,
             "order_number": 12
         }
@@ -111,7 +111,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 13,
         "fields": {
-            "episode_id": 537632,
+            "episode_id": 15,
             "playlist_id": 1,
             "order_number": 13
         }
@@ -120,7 +120,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 14,
         "fields": {
-            "episode_id": 537630,
+            "episode_id": 13,
             "playlist_id": 1,
             "order_number": 14
         }
@@ -129,7 +129,7 @@
         "model": "enchiridionapi.playlistepisode",
         "pk": 15,
         "fields": {
-            "episode_id": 537639,
+            "episode_id": 14,
             "playlist_id": 1,
             "order_number": 15
         }

@@ -1,8 +1,10 @@
 [
     {
         "model": "enchiridionapi.episode",
-        "pk": 537624,
+        "pk": 1,
         "fields": {
+            "tmdb_id": 537624,
+            "series_id": 15260,
             "episode_number": 1,
             "season_number": 1,
             "name": "Slumber Party Panic",
@@ -14,8 +16,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537626,
+        "pk": 2,
         "fields": {
+            "tmdb_id": 537626,
+            "series_id": 15260,
             "episode_number": 2,
             "season_number": 1,
             "name": "Trouble in Lumpy Space",
@@ -27,21 +31,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537629,
+        "pk": 3,
         "fields": {
-            "episode_number": 3,
-            "season_number": 1,
-            "name": "Prisoners of Love",
-            "runtime": 11,
-            "overview": "When the Ice King kidnaps a number of princesses he sees as potential brides, Finn and Jake team with the prisoners to set everybody free.",
-            "still_path": "/mxt4pdJ57dMJchwp0bKg4mKRyxN.jpg",
-            "air_date": "2010-04-12"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537631,
-        "fields": {
+            "tmdb_id": 537631,
+            "series_id": 15260,
             "episode_number": 4,
             "season_number": 1,
             "name": "Tree Trunks",
@@ -53,8 +46,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537618,
+        "pk": 4,
         "fields": {
+            "tmdb_id": 537618,
+            "series_id": 15260,
             "episode_number": 5,
             "season_number": 1,
             "name": "The Enchiridion!",
@@ -66,34 +61,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537619,
+        "pk": 5,
         "fields": {
-            "episode_number": 6,
-            "season_number": 1,
-            "name": "The Jiggler",
-            "runtime": 11,
-            "overview": "A jiggly creature attracted by Finn's auto-tuned singing follows Finn and Jake home but soon feels ill effects of separation from its family.",
-            "still_path": "/sfbDsyXnq6GEHJRlmC4Rzgd74Xx.jpg",
-            "air_date": "2010-04-19"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537633,
-        "fields": {
-            "episode_number": 7,
-            "season_number": 1,
-            "name": "Ricardio the Heart Guy",
-            "runtime": 11,
-            "overview": "When a Heart Guy named Ricardio comes to Candy Kingdom, Finn gets really jealous and finds a way to get him out of the Land of Ooo.",
-            "still_path": "/l8oyJ41lyINyhZ0cWzLIGTMyKO4.jpg",
-            "air_date": "2010-04-26"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537634,
-        "fields": {
+            "tmdb_id": 537634,
+            "series_id": 15260,
             "episode_number": 8,
             "season_number": 1,
             "name": "Business Time",
@@ -105,8 +76,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537642,
+        "pk": 6,
         "fields": {
+            "tmdb_id": 537642,
+            "series_id": 15260,
             "episode_number": 9,
             "season_number": 1,
             "name": "My Two Favorite People",
@@ -118,34 +91,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537641,
+        "pk": 7,
         "fields": {
-            "episode_number": 10,
-            "season_number": 1,
-            "name": "Memories of Boom Boom Mountain",
-            "runtime": 11,
-            "overview": "Finn reflects on an upsetting experience in his past and pledges to help everyone in town, but this proves more difficult than imagined.",
-            "still_path": "/jmjoPkJ6QTU3Rrs18SO85hgPzrx.jpg",
-            "air_date": "2010-05-03"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537643,
-        "fields": {
-            "episode_number": 11,
-            "season_number": 1,
-            "name": "Wizard",
-            "runtime": 11,
-            "overview": "Finn and Jake temporarily get magic powers from an evil wizard, but are tricked into helping stop a comet.",
-            "still_path": "/kUvee6SubQfhSvExT7QR7FFgKw4.jpg",
-            "air_date": "2010-05-10"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537640,
-        "fields": {
+            "tmdb_id": 537640,
+            "series_id": 15260,
             "episode_number": 12,
             "season_number": 1,
             "name": "Evicted!",
@@ -157,34 +106,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537635,
+        "pk": 8,
         "fields": {
-            "episode_number": 13,
-            "season_number": 1,
-            "name": "City of Thieves",
-            "runtime": 11,
-            "overview": "Finn and Jake go off to face a thief king who has been stealing from little girls.",
-            "still_path": "/thZuDcHm5zk4EX8wcrZYx7UlDs6.jpg",
-            "air_date": "2010-05-24"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537636,
-        "fields": {
-            "episode_number": 14,
-            "season_number": 1,
-            "name": "The Witch's Garden",
-            "runtime": 11,
-            "overview": "Finn and Jake consider breaking up after a witch strips Jake of his powers.",
-            "still_path": "/5xHivVTx0092bcxA1mB0WBWCMCT.jpg",
-            "air_date": "2010-06-07"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537637,
-        "fields": {
+            "tmdb_id": 537637,
+            "series_id": 15260,
             "episode_number": 15,
             "season_number": 1,
             "name": "What Is Life?",
@@ -196,8 +121,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537638,
+        "pk": 9,
         "fields": {
+            "tmdb_id": 537638,
+            "series_id": 15260,
             "episode_number": 16,
             "season_number": 1,
             "name": "Ocean of Fear",
@@ -209,8 +136,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537627,
+        "pk": 10,
         "fields": {
+            "tmdb_id": 537627,
+            "series_id": 15260,
             "episode_number": 17,
             "season_number": 1,
             "name": "When Wedding Bells Thaw",
@@ -222,34 +151,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537628,
+        "pk": 11,
         "fields": {
-            "episode_number": 18,
-            "season_number": 1,
-            "name": "Dungeon",
-            "runtime": 11,
-            "overview": "Finn's headstrong decision to explore a dungeon in defiance of Jake's warnings leads to a dangerous escapade.",
-            "still_path": "/lcvKKnQJxHz2erYnhPSoK9O5I1Y.jpg",
-            "air_date": "2010-07-12"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537620,
-        "fields": {
-            "episode_number": 19,
-            "season_number": 1,
-            "name": "The Duke",
-            "runtime": 11,
-            "overview": "Finn must tell the truth when he accidentally turns Princess Bubblegum bald and green and blames the Duke of Nuts.",
-            "still_path": "/jaUMUJKgRSVSZnDrQEQ40DZWVPE.jpg",
-            "air_date": "2010-07-19"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537621,
-        "fields": {
+            "tmdb_id": 537621,
+            "series_id": 15260,
             "episode_number": 20,
             "season_number": 1,
             "name": "Freak City",
@@ -261,21 +166,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537622,
+        "pk": 12,
         "fields": {
-            "episode_number": 21,
-            "season_number": 1,
-            "name": "Donny",
-            "runtime": 11,
-            "overview": "Finn and Jake try to help an obnoxious grass ogre named Donny develop better social skills, only to find out Donny's jerky behavior protects the house people from the why-wolves, which eat the house people.",
-            "still_path": "/9dFdIBVSE9pmBOVDgZxcJSBHcnc.jpg",
-            "air_date": "2010-08-09"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537623,
-        "fields": {
+            "tmdb_id": 537623,
+            "series_id": 15260,
             "episode_number": 22,
             "season_number": 1,
             "name": "Henchman",
@@ -287,21 +181,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537625,
+        "pk": 13,
         "fields": {
-            "episode_number": 23,
-            "season_number": 1,
-            "name": "Rainy Day Daydream",
-            "runtime": 11,
-            "overview": "Stuck inside the treehouse due to a knife storm, Finn and Jake use their imagination to pass the time.",
-            "still_path": "/mGjV2k0T2F3FmQi62NOCp1qvxOe.jpg",
-            "air_date": "2010-09-06"
-        }
-    },
-    {
-        "model": "enchiridionapi.episode",
-        "pk": 537630,
-        "fields": {
+            "tmdb_id": 537630,
+            "series_id": 15260,
             "episode_number": 24,
             "season_number": 1,
             "name": "What Have You Done?",
@@ -313,8 +196,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537639,
+        "pk": 14,
         "fields": {
+            "tmdb_id": 537639,
+            "series_id": 15260,
             "episode_number": 25,
             "season_number": 1,
             "name": "His Hero",
@@ -326,8 +211,10 @@
     },
     {
         "model": "enchiridionapi.episode",
-        "pk": 537632,
+        "pk": 15,
         "fields": {
+            "tmdb_id": 537632,
+            "series_id": 15260,
             "episode_number": 26,
             "season_number": 1,
             "name": "Gut Grinder",

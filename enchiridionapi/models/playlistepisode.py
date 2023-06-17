@@ -1,4 +1,4 @@
-"""Module defining the playlist model"""
+"""Module defining the playlistepisode model"""
 from django.db import models
 
 class PlaylistEpisode(models.Model):
