@@ -14,5 +14,5 @@ class EpisodeSerializer(serializers.Serializer):
 class LocalEpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Episode
-        fields = ['tmdb_id', 'series_id', 'name', 'season_number', 'episode_number',
+        fields = ['id', 'tmdb_id', 'series_id', 'name', 'season_number', 'episode_number',
                   'air_date', 'overview', 'runtime', 'still_path']
