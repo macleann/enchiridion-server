@@ -7,4 +7,4 @@ class SeriesSerializer(serializers.Serializer):
     poster_path = serializers.CharField(allow_blank=True, required=False)
     name = serializers.CharField()
     overview = serializers.CharField(allow_blank=True, required=False)
-    seasons = SimpleSeasonSerializer(many=True)
+    seasons = SimpleSeasonSerializer(many=True, required=False)
