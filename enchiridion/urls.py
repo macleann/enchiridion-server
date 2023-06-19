@@ -24,6 +24,7 @@ router.register(r'episodes', views.EpisodeView, 'episode')
 router.register(r'seasons', views.SeasonView, 'season')
 router.register(r'user-playlists', views.UserPlaylistView, 'user-playlist')
 router.register(r'playlists', views.PublicPlaylistView, 'playlist')
+router.register(r'series', views.SeriesView, 'series')
 
 urlpatterns = [
     path('', include(router.urls)),
