@@ -17,7 +17,12 @@ class SeasonView(ViewSet):
         Returns: a JSON serialized list of seasons from the TMDB API
         """
         # Set the url to query the API
-        url = f'https://api.themoviedb.org/3/tv/15260'
+        series_id = request.query_params.get('series_id')
+        
+        if series_id is None:
+            return Response({"message": "Please enter a series id."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        url = f'https://api.themoviedb.org/3/tv/{series_id}'
 
         # Set the appropriate headers according to the documentation at
         # https://developer.themoviedb.org/reference/intro/getting-started
@@ -50,7 +55,12 @@ class SeasonView(ViewSet):
         Returns: a JSON serialized season from the TMDB API
         """
         # Set the url to query the API
-        url = f'https://api.themoviedb.org/3/tv/15260/season/{pk}'
+        series_id = request.query_params.get('series_id')
+        
+        if series_id is None:
+            return Response({"message": "Please enter a series id."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{pk}'
 
         # Set the appropriate headers according to the documentation at
         # https://developer.themoviedb.org/reference/intro/getting-started

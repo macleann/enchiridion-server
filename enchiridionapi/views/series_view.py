@@ -1,6 +1,7 @@
 import requests, os
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from enchiridionapi.serializers import SeriesSerializer
 
@@ -12,6 +13,7 @@ class SeriesView(ViewSet):
     Args:
         ViewSet: Inherits from the ViewSet class in the rest_framework package
     """
+    permission_classes = [AllowAny]
 
     def list (self, request):
         """GET a list of series from the TMDB API that match the search parameter
