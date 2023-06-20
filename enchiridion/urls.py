@@ -28,8 +28,6 @@ router.register(r'series', views.SeriesView, 'series')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('episodes/tmdb/<int:season_number>/', views.EpisodeView.as_view({'get': 'tmdb_episodes'})),
-    path('episodes/tmdb/<int:season_number>/<int:episode_number>/', views.EpisodeView.as_view({'get': 'tmdb_single_episode'})),
     path('register', views.register_user),
     path('login', views.login_user),
     path('admin/', admin.site.urls),

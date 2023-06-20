@@ -36,7 +36,7 @@ class EpisodeView(ViewSet):
             return Response({"error": "Episode not found"}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['get'])
-    def tmdb_episodes(self, request, season_number=None):
+    def tmdb_episodes(self, request):
         """
         Gets a list of episodes from the TMDB API
 
@@ -44,10 +44,13 @@ class EpisodeView(ViewSet):
 
         Returns: a JSON serialized list of episodes from the TMDB API
         """
-        if season_number is None:
-            return Response({"error": "Season number is required"}, status=status.HTTP_400_BAD_REQUEST)
+        series_id = request.query_params.get('series_id')
+        season_number = request.query_params.get('season_number')
         
-        url = f'https://api.themoviedb.org/3/tv/15260/season/{season_number}'
+        if series_id is None or season_number is None:
+            return Response({"error": "Series id and season number are required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}'
         headers = {
                     "accept": "application/json",
                     "Authorization": f"Bearer {TMDB_API_KEY}"
@@ -63,7 +66,7 @@ class EpisodeView(ViewSet):
             return Response({"error": "Unable to fetch data from TMDB API"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['get'])
-    def tmdb_single_episode(self, request, season_number=None, episode_number=None):
+    def tmdb_single_episode(self, request):
         """
         Gets an episode from the TMDB API
 
@@ -73,10 +76,14 @@ class EpisodeView(ViewSet):
 
         Returns: a JSON serialized episode from the TMDB API
         """
-        if season_number is None or episode_number is None:
-            return Response({"error": "Season and episode numbers are required"}, status=status.HTTP_400_BAD_REQUEST)
+        series_id = request.query_params.get('series_id')
+        season_number = request.query_params.get('season_number')
+        episode_number = request.query_params.get('episode_number')
         
-        url = f'https://api.themoviedb.org/3/tv/15260/season/{season_number}/episode/{episode_number}'
+        if series_id is None or season_number is None or episode_number is None:
+            return Response({"error": "Series id and season and episode numbers are required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}'
         headers = {
                     "accept": "application/json",
                     "Authorization": f"Bearer {TMDB_API_KEY}"
