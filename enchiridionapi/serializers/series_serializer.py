@@ -8,3 +8,4 @@ class SeriesSerializer(serializers.Serializer):
     name = serializers.CharField()
     overview = serializers.CharField(allow_blank=True, required=False)
     seasons = SimpleSeasonSerializer(many=True, required=False)
+    first_air_date = serializers.DateField(required=False)
