@@ -5,6 +5,7 @@
         "fields": {
             "tmdb_id": 537624,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 1,
             "season_number": 1,
             "name": "Slumber Party Panic",
@@ -20,6 +21,7 @@
         "fields": {
             "tmdb_id": 537626,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 2,
             "season_number": 1,
             "name": "Trouble in Lumpy Space",
@@ -35,6 +37,7 @@
         "fields": {
             "tmdb_id": 537631,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 4,
             "season_number": 1,
             "name": "Tree Trunks",
@@ -50,6 +53,7 @@
         "fields": {
             "tmdb_id": 537618,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 5,
             "season_number": 1,
             "name": "The Enchiridion!",
@@ -65,6 +69,7 @@
         "fields": {
             "tmdb_id": 537634,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 8,
             "season_number": 1,
             "name": "Business Time",
@@ -80,6 +85,7 @@
         "fields": {
             "tmdb_id": 537642,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 9,
             "season_number": 1,
             "name": "My Two Favorite People",
@@ -95,6 +101,7 @@
         "fields": {
             "tmdb_id": 537640,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 12,
             "season_number": 1,
             "name": "Evicted!",
@@ -110,6 +117,7 @@
         "fields": {
             "tmdb_id": 537637,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 15,
             "season_number": 1,
             "name": "What Is Life?",
@@ -125,6 +133,7 @@
         "fields": {
             "tmdb_id": 537638,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 16,
             "season_number": 1,
             "name": "Ocean of Fear",
@@ -140,6 +149,7 @@
         "fields": {
             "tmdb_id": 537627,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 17,
             "season_number": 1,
             "name": "When Wedding Bells Thaw",
@@ -155,6 +165,7 @@
         "fields": {
             "tmdb_id": 537621,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 20,
             "season_number": 1,
             "name": "Freak City",
@@ -170,6 +181,7 @@
         "fields": {
             "tmdb_id": 537623,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 22,
             "season_number": 1,
             "name": "Henchman",
@@ -185,6 +197,7 @@
         "fields": {
             "tmdb_id": 537630,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 24,
             "season_number": 1,
             "name": "What Have You Done?",
@@ -200,6 +213,7 @@
         "fields": {
             "tmdb_id": 537639,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 25,
             "season_number": 1,
             "name": "His Hero",
@@ -215,6 +229,7 @@
         "fields": {
             "tmdb_id": 537632,
             "series_id": 15260,
+            "series_name": "Adventure Time",
             "episode_number": 26,
             "season_number": 1,
             "name": "Gut Grinder",
