@@ -29,7 +29,7 @@ class SeriesView(ViewSet):
         if search_parameter is None:
             return Response({"message": "Please enter a search parameter."}, status=status.HTTP_400_BAD_REQUEST)
 
-        url = f'https://api.themoviedb.org/3/search/tv?query={search_parameter}'
+        url = f'https://api.themoviedb.org/3/search/tv?query={search_parameter}&language=en-US&page=1'
 
         headers = {
             "accept": "application/json",
