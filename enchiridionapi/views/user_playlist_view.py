@@ -31,25 +31,15 @@ class UserPlaylistView(ViewSet):
             season_number = episode_data.get('season_number')
             episode_number = episode_data.get('episode_number')
             order_number = episode_data.get('order_number')
+            tmdb_id = episode_data.get('id')
 
             try:
                 episode = Episode.objects.get(series_id=series_id, season_number=season_number, episode_number=episode_number)
             except Episode.DoesNotExist:
-                url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}'
-                headers = {
-                    "accept": "application/json",
-                    "Authorization": f"Bearer {TMDB_API_KEY}"
-                }
-                tmdb_response = requests.get(url, headers=headers)
-                if tmdb_response.status_code == status.HTTP_200_OK:
-                    episode_data = tmdb_response.json()
-                    episode_data['tmdb_id'] = episode_data['id']
-                    episode_data['series_id'] = series_id
-                    serializer = LocalEpisodeSerializer(data=episode_data)
-                    if serializer.is_valid(raise_exception=True):
-                        episode = serializer.save()
-                    else:
-                        continue
+                episode_data['tmdb_id'] = tmdb_id
+                serializer = LocalEpisodeSerializer(data=episode_data)
+                if serializer.is_valid():
+                    episode = serializer.save()
                 else:
                     continue
 
@@ -83,32 +73,25 @@ class UserPlaylistView(ViewSet):
                 season_number = episode_data.get('season_number')
                 episode_number = episode_data.get('episode_number')
                 order_number = episode_data.get('order_number')
+                tmdb_id = episode_data.get('id')
 
                 # Same logic for fetching/creating the episode as in the create method...
                 try:
                     # Check if episode exists in local DB
                     episode = Episode.objects.get(series_id=series_id, season_number=season_number, episode_number=episode_number)
                 except Episode.DoesNotExist:
-                    # If it does not exist, fetch it from TMDB API
-                    url = f'https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}'
-                    headers = {
-                        "accept": "application/json",
-                        "Authorization": f"Bearer {TMDB_API_KEY}"
-                    }
-                    tmdb_response = requests.get(url, headers=headers)
-                    if tmdb_response.status_code == 200:
-                        # Parse the response into JSON
-                        episode_data = tmdb_response.json()
-                        episode_data['tmdb_id'] = episode_data['id']
-                        episode_data['series_id'] = series_id
-                        # And pass that JSON through the serializer
-                        serializer = LocalEpisodeSerializer(data=episode_data)
-                        if serializer.is_valid():
-                            episode = serializer.save()  # save the episode to local DB
-                        else:
-                            continue  # if data is invalid, skip this episode
+                    # If not, create it
+                    # Add the TMDB ID to the episode data since creating a local episode generates a new, auto-incremented ID
+                    episode_data['tmdb_id'] = tmdb_id
+                    # Serialize the episode data to create the episode
+                    serializer = LocalEpisodeSerializer(data=episode_data)
+                    # Validate the data
+                    if serializer.is_valid():
+                        # Save the episode
+                        episode = serializer.save()
                     else:
-                        continue  # if fetching from TMDB API failed, skip this episode
+                        # If the data is invalid, skip this episode
+                        continue
 
                 # Now that we have the episode, add it to the playlist
                 PlaylistEpisode.objects.create(playlist=playlist, episode=episode, order_number=order_number)
