@@ -1,3 +1,4 @@
+import os, requests
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -55,6 +56,65 @@ def register_user(request):
 
         token = Token.objects.create(user=new_user)
         data = { 'token': token.key, 'id': new_user.id }
+        return Response(data, status=status.HTTP_201_CREATED)
+    except IntegrityError:
+        return Response({ 'error': 'A user with this username already exists.' }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def google_login(request):
+    # first, we need to take the code from the request and send it to google to get access and refresh tokens
+    # then, we need to take the access token and send it to google to get the user's info
+    # then, we need to check if the user exists in our database
+    # if the user exists, we need to log them in
+    # if the user does not exist, we need to create them and log them in
+    # finally, we need to return the user's info and a token
+    
+    code = request.data['codeResponse']
+    
+    # get access and refresh tokens
+    url = 'https://oauth2.googleapis.com/token'
+    data = {
+        'code': code,
+        'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
+        'client_secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
+        'redirect_uri': 'http://localhost:3000/login',
+        'grant_type': 'authorization_code'
+    }
+    
+    POST_response = requests.post(url, data=data)
+    POST_response = POST_response.json()
+    
+    # get user info
+    url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + POST_response['access_token']
+    GET_response = requests.get(url)
+    GET_response = GET_response.json()
+    
+    # check if user exists
+    user = User.objects.filter(email=GET_response['email']).first()
+    if user is not None:
+        # log user in
+        token = Token.objects.get(user=user)
+        data = {
+            'valid': True,
+            'token': token.key,
+            'id': user.id
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    
+    # create user
+    try:
+        new_user = User.objects.create_user(
+            username=GET_response['email'],
+            email=GET_response['email'],
+            first_name=GET_response['given_name'],
+            last_name=GET_response['family_name']
+        )
+        new_user.set_unusable_password()
+        new_user.save()
+        
+        token = Token.objects.create(user=new_user)
+        data = { 'valid': True, 'token': token.key, 'id': new_user.id }
         return Response(data, status=status.HTTP_201_CREATED)
     except IntegrityError:
         return Response({ 'error': 'A user with this username already exists.' }, status=status.HTTP_400_BAD_REQUEST)

@@ -30,5 +30,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register', views.register_user),
     path('login', views.login_user),
+    path('google/login', views.google_login),
     path('admin/', admin.site.urls),
 ]
