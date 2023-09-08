@@ -1,4 +1,4 @@
-from .auth import login_user, register_user
+from .auth import login_user, register_user, google_login
 from .episode_view import EpisodeView
 from .season_view import SeasonView
 from .user_playlist_view import UserPlaylistView
