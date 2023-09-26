@@ -31,5 +31,7 @@ urlpatterns = [
     path('register', views.register_user),
     path('login', views.login_user),
     path('google/login', views.google_login),
+    path('verify', views.verify_token),
+    path('logout', views.logout_user),
     path('admin/', admin.site.urls),
 ]
