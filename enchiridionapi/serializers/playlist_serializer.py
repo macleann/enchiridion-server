@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from enchiridionapi.models import Playlist, PlaylistEpisode
+from enchiridionapi.models import Playlist, PlaylistEpisode, Like
 from enchiridionapi.serializers import LocalEpisodeSerializer
 
 class PlaylistSerializer(serializers.ModelSerializer):
     episodes = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Playlist
-        fields = ['id', 'user_id', 'name', 'description', 'episodes']
+        fields = ['id', 'user_id', 'name', 'description', 'episodes', 'likes_count']
 
     def get_episodes(self, obj):
         episodes = PlaylistEpisode.objects.filter(playlist=obj).order_by('order_number')
@@ -17,3 +18,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
             episode_dict['order_number'] = ep.order_number
             episode_list.append(episode_dict)
         return episode_list
+
+    def get_likes_count(self, obj):
+        likes = Like.objects.filter(playlist=obj)
+        return likes.count()
