@@ -36,7 +36,7 @@ pipeline {
                 script {
                     // Placeholder for test commands
                     echo 'Running back-end tests...'
-                    // Add your test commands here
+                    // Add test commands here
                 }
             }
         }
@@ -48,8 +48,14 @@ pipeline {
                     sh """
                     az container create --resource-group EnchiridionTV-Production \
                         --name enchiridion-server-${env.BUILD_NUMBER} \
-                        --image macleann/enchiridion-server:${versionTag} \
-                        --environment-variables MY_SECRET_KEY=${MY_SECRET_KEY} \
+                        --image macleann/enchiridion-server:latest \
+                        --environment-variables \
+                            MY_SECRET_KEY=${MY_SECRET_KEY} \
+                            TMDB_API_KEY=${TMDB_API_KEY} \
+                            GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
+                            GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
+                            DB_USER=${DB_USER} \
+                            DB_PASSWORD=${DB_PASSWORD} \
                         --dns-name-label enchiridion-server-${env.BUILD_NUMBER} \
                         --ports 8000
                     """
