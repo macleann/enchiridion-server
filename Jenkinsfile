@@ -44,25 +44,25 @@ pipeline {
             steps {
                 script {
                     // Azure CLI commands to deploy to ACI
-                    withCredentials([azureServicePrincipal('jenkins-azure-identity')]) {
-                        sh '''
-                        az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
-                        az account set --subscription $AZURE_SUBSCRIPTION_ID
-                        az container create --resource-group EnchiridionTV-Production \
-                            --name enchiridion-server-${env.BUILD_NUMBER} \
-                            --image macleann/enchiridion-server:${latestTag} \
-                            --environment-variables \
-                                MY_SECRET_KEY=${MY_SECRET_KEY} \
-                                TMDB_API_KEY=${TMDB_API_KEY} \
-                                GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
-                                GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
-                                DB_USER=${DB_USER} \
-                                DB_PASSWORD=${DB_PASSWORD} \
-                            --dns-name-label enchiridion-server-${env.BUILD_NUMBER} \
-                            --ports 8000
-                        az logout
-                        '''
-                    }
+                    // Login to Azure using Managed Identity
+                    sh 'az login --identity'
+                    // Deploy to ACI
+                    sh '''
+                    az container create --resource-group EnchiridionTV-Production \
+                        --name enchiridion-server-${env.BUILD_NUMBER} \
+                        --image macleann/enchiridion-server:latest \
+                        --environment-variables \
+                            MY_SECRET_KEY=${MY_SECRET_KEY} \
+                            TMDB_API_KEY=${TMDB_API_KEY} \
+                            GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
+                            GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
+                            DB_USER=${DB_USER} \
+                            DB_PASSWORD=${DB_PASSWORD} \
+                        --dns-name-label enchiridion-server-${env.BUILD_NUMBER} \
+                        --ports 8000
+                    '''
+                    // Log out from Azure CLI
+                    sh 'az logout'
                 }
             }
         }
