@@ -1,8 +1,6 @@
 pipeline {
     agent any
     environment {
-        // Fetching environment variables from Jenkins
-        AZURE_CREDS = credentials('jenkins-azure-identity')
         // Fetching environment variables from Azure Key Vault
         MY_SECRET_KEY = credentials('MY-SECRET-KEY')
         TMDB_API_KEY = credentials('TMDB-API-KEY')
