@@ -1,6 +1,8 @@
 pipeline {
     agent any
     environment {
+        // Fetching environment variables from Jenkins
+        AZURE_CREDS = credentials('jenkins-azure-identity')
         // Fetching environment variables from Azure Key Vault
         MY_SECRET_KEY = credentials('MY-SECRET-KEY')
         TMDB_API_KEY = credentials('TMDB-API-KEY')
@@ -44,7 +46,9 @@ pipeline {
             steps {
                 script {
                     // Azure CLI commands to deploy to ACI
-                    // Ensure Azure CLI is installed and configured on Jenkins agent
+                    // First, login to Azure
+                    sh 'az login --service-principal -u $AZURE_CREDS_CLIENT_ID -p $AZURE_CREDS_CLIENT_SECRET -t $AZURE_CREDS_TENANT_ID'
+                    // Then deploy to ACI
                     sh '''
                     az container create --resource-group EnchiridionTV-Production \
                         --name enchiridion-server-$BUILD_NUMBER \
