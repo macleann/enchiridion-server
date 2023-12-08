@@ -3,9 +3,13 @@ pipeline {
     environment {
         // Fetching environment variables from Azure Key Vault
         MY_SECRET_KEY = credentials('MY-SECRET-KEY')
+        CLIENT_URL = credentials('CLIENT-URL')
+        WWW_CLIENT_URL = credentials('WWW-CLIENT-URL')
+        DEBUG = false
         TMDB_API_KEY = credentials('TMDB-API-KEY')
         GOOGLE_CLIENT_ID = credentials('GOOGLE-CLIENT-ID')
         GOOGLE_CLIENT_SECRET = credentials('GOOGLE-CLIENT-SECRET')
+        DB_ENGINE = credentials('DB-ENGINE')
         DB_USER = credentials('DB-USER')
         DB_PASSWORD = credentials('DB-PASSWORD')
     }
@@ -47,7 +51,7 @@ pipeline {
                     sh 'az login --identity'
 
                     // Delete old container if it exists
-                    sh 'az container delete --name enchiridion-server --resource-group EnchiridionTV-Production || true'
+                    sh 'az container delete --name enchiridion-server --resource-group EnchiridionTV-Production --yes'
 
                     // Deploy to ACI
                     sh '''
@@ -56,9 +60,13 @@ pipeline {
                         --image macleann/enchiridion-server:latest \
                         --environment-variables \
                             MY_SECRET_KEY=$MY_SECRET_KEY \
+                            CLIENT_URL=$CLIENT_URL \
+                            WWW_CLIENT_URL=$WWW_CLIENT_URL \
+                            DEBUG=$DEBUG \
                             TMDB_API_KEY=$TMDB_API_KEY \
                             GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
                             GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
+                            DB_ENGINE=$DB_ENGINE \
                             DB_USER=$DB_USER \
                             DB_PASSWORD=$DB_PASSWORD \
                         --dns-name-label enchiridion-server \
@@ -79,7 +87,6 @@ pipeline {
                         --name enchiridion-client \
                         --query ipAddress.ip \
                         --output tsv)
-                    || true
                     '''
 
                     // Log out from Azure CLI
@@ -87,9 +94,9 @@ pipeline {
 
                     // Update Nginx configuration with the new IP addresses
                     sh '''
-                    cp /etc/nginx/sites-available/default.template /etc/nginx/sites-available/default
-                    sed -i "s/FRONTEND_CONTAINER_IP/${FRONTEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
-                    sed -i "s/BACKEND_CONTAINER_IP/${BACKEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
+                    sudo cp /etc/nginx/sites-available/default.template /etc/nginx/sites-available/default
+                    sudo sed -i "s/FRONTEND_CONTAINER_IP/${FRONTEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
+                    sudo sed -i "s/BACKEND_CONTAINER_IP/${BACKEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
                     sudo systemctl restart nginx
                     '''
                 }
