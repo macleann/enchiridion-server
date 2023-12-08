@@ -10,12 +10,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY Pipfile Pipfile.lock ./
 
-RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
-
-COPY . .
-
 EXPOSE 8000
 
-ENV NAME World
-
-CMD ["pipenv", "run", "gunicorn", "your_project.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["pipenv", "run", "gunicorn", "enchiridion.wsgi:application", "--bind", "0.0.0.0:8000"]
