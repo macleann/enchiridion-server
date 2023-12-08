@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('MY_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -59,15 +59,15 @@ CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = [os.environ.get('CLIENT_URL')]
 
 # PROD ONLY
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://127.0.0.1:3000'
+    os.environ.get('CLIENT_URL'),
+    os.environ.get('WWW_CLIENT_URL'),
 )
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
@@ -159,7 +159,7 @@ WSGI_APPLICATION = 'enchiridion.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
+        'ENGINE': os.getenv('DB_ENGINE'),
         'NAME': 'enchiridion-tv-db',
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
