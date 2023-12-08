@@ -43,13 +43,16 @@ pipeline {
         stage('Deploy to ACI') {
             steps {
                 script {
-                    // Azure CLI commands to deploy to ACI
                     // Login to Azure using Managed Identity
                     sh 'az login --identity'
+
+                    // Delete old container if it exists
+                    sh 'az container delete --name enchiridion-server --resource-group EnchiridionTV-Production || true'
+
                     // Deploy to ACI
                     sh '''
                     az container create --resource-group EnchiridionTV-Production \
-                        --name enchiridion-server-$BUILD_NUMBER \
+                        --name enchiridion-server \
                         --image macleann/enchiridion-server:latest \
                         --environment-variables \
                             MY_SECRET_KEY=$MY_SECRET_KEY \
@@ -58,11 +61,37 @@ pipeline {
                             GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
                             DB_USER=$DB_USER \
                             DB_PASSWORD=$DB_PASSWORD \
-                        --dns-name-label enchiridion-server-$BUILD_NUMBER \
+                        --dns-name-label enchiridion-server \
                         --ports 8000
                     '''
+
+                    // Obtain the public IP address of the newly created container
+                    sh '''
+                    BACKEND_CONTAINER_IP=$(az container show --resource-group EnchiridionTV-Production \
+                        --name enchiridion-server \
+                        --query ipAddress.ip \
+                        --output tsv)
+                    '''
+
+                    // Obtain the public IP address of the front-end container
+                    sh '''
+                    FRONTEND_CONTAINER_IP=$(az container show --resource-group EnchiridionTV-Production \
+                        --name enchiridion-client \
+                        --query ipAddress.ip \
+                        --output tsv)
+                    || true
+                    '''
+
                     // Log out from Azure CLI
                     sh 'az logout'
+
+                    // Update Nginx configuration with the new IP addresses
+                    sh '''
+                    cp /etc/nginx/sites-available/default.template /etc/nginx/sites-available/default
+                    sed -i "s/FRONTEND_CONTAINER_IP/${FRONTEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
+                    sed -i "s/BACKEND_CONTAINER_IP/${BACKEND_CONTAINER_IP}/g" /etc/nginx/sites-available/default
+                    sudo systemctl restart nginx
+                    '''
                 }
             }
         }
