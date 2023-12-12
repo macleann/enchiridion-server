@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('MY_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['api.enchiridion.tv', 'enchiridion.tv', 'www.enchiridion.tv']
 
@@ -65,7 +65,7 @@ CSRF_TRUSTED_ORIGINS = [os.environ.get('CLIENT_URL')]
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
-CORS_ORIGIN_WHITELIST = (
+CORS_ALLOWED_ORIGINS = (
     os.environ.get('CLIENT_URL'),
     os.environ.get('WWW_CLIENT_URL'),
 )
