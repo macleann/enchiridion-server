@@ -11,9 +11,10 @@ djangorestframework = "*"
 django-cors-headers = "*"
 pylint-django = "*"
 requests = "*"
-django-mssql-backend = "*"
 gunicorn = "*"
 djangorestframework-simplejwt = "*"
+mssql-django = "*"
+pyodbc = "*"
 
 [dev-packages]
 
