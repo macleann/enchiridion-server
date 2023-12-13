@@ -29,6 +29,8 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['api.enchiridion.tv', 'enchiridion.tv', 'www.enchiridion.tv']
 
+if os.environ.get('DEBUG', 'False').lower() == 'true':
+    ALLOWED_HOSTS.append('localhost')
 
 # Application definition
 
