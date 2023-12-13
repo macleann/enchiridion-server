@@ -93,21 +93,7 @@ pipeline {
                         --output tsv)
                     '''
                     echo "Backend container IP: ${BACKEND_IP}"
-                    sh """
-                    sudo sed -i "s/BACKEND_CONTAINER_IP/${BACKEND_IP}/g" /etc/nginx/sites-available/default
-                    """
-
-                    // Obtain the public IP address of the front-end container
-                    sh '''
-                    FRONTEND_IP=$(az container show --resource-group EnchiridionTV-Production \
-                        --name enchiridion-client \
-                        --query ipAddress.ip \
-                        --output tsv)
-                    '''
-                    echo "Frontend container IP: ${FRONTEND_IP}"
-                    sh """
-                    sudo sed -i "s/FRONTEND_CONTAINER_IP/${FRONTEND_IP}/g" /etc/nginx/sites-available/default
-                    """
+                    sh "sudo /usr/local/bin/update_nginx.sh ${BACKEND_IP}"
                     echo 'Copied Nginx configuration template'
                     
                     // Restart Nginx
