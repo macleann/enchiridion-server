@@ -1,24 +1,29 @@
 from rest_framework import serializers
-from enchiridionapi.models import Playlist, PlaylistEpisode, Like
+from django.db.models import Prefetch
+from enchiridionapi.models import Playlist, PlaylistEpisode
 from enchiridionapi.serializers import LocalEpisodeSerializer
 
 class PlaylistSerializer(serializers.ModelSerializer):
     episodes = serializers.SerializerMethodField()
-    likes_count = serializers.SerializerMethodField()
+    likes_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Playlist
         fields = ['id', 'user_id', 'name', 'description', 'episodes', 'likes_count']
 
     def get_episodes(self, obj):
-        episodes = PlaylistEpisode.objects.filter(playlist=obj).order_by('order_number')
-        episode_list = []
-        for ep in episodes:
-            episode_dict = LocalEpisodeSerializer(ep.episode).data
-            episode_dict['order_number'] = ep.order_number
-            episode_list.append(episode_dict)
-        return episode_list
+        episode_playlist = obj.playlist_episodes
+        serializer = LocalEpisodeSerializer([ep.episode for ep in episode_playlist], many=True)
+        return serializer.data
 
-    def get_likes_count(self, obj):
-        likes = Like.objects.filter(playlist=obj)
-        return likes.count()
+    @staticmethod
+    def setup_eager_loading(queryset):
+        """ Perform necessary eager loading of data. """
+        queryset = queryset.prefetch_related(
+            Prefetch(
+                'playlistepisode_set',
+                queryset=PlaylistEpisode.objects.select_related('episode').order_by('order_number'),
+                to_attr='playlist_episodes'
+            )
+        )
+        return queryset
