@@ -29,15 +29,13 @@ class PublicPlaylistView(ViewSet):
             serializer = PlaylistSerializer(trending_playlists, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         
-        playlists = Playlist.objects.all()
-        playlists = PlaylistSerializer.setup_eager_loading(playlists)
+        playlists = PlaylistSerializer.setup_eager_loading(Playlist.objects.annotate(likes_count=Count('like')))
         serializer = PlaylistSerializer(playlists, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
         """Handles GET requests for single playlist"""
         try:
-            playlist = Playlist.objects.get(pk=pk)
             playlist = PlaylistSerializer.setup_eager_loading(Playlist.objects.filter(pk=pk)).get()
             serializer = PlaylistSerializer(playlist, context={'request': request})
             return Response(serializer.data)
