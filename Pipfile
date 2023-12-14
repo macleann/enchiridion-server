@@ -15,6 +15,7 @@ gunicorn = "*"
 djangorestframework-simplejwt = "*"
 mssql-django = "*"
 pyodbc = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

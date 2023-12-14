@@ -35,4 +35,5 @@ urlpatterns = [
     path('verify', views.verify_token),
     path('logout', views.logout_user),
     path('admin/', admin.site.urls),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
