@@ -31,4 +31,3 @@ class PlaylistSerializer(serializers.ModelSerializer):
             )
         ).prefetch_related('like_set')
         return queryset
-
