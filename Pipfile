@@ -15,6 +15,7 @@ gunicorn = "*"
 djangorestframework-simplejwt = "*"
 mssql-django = "*"
 pyodbc = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

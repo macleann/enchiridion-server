@@ -160,16 +160,11 @@ WSGI_APPLICATION = 'enchiridion.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE'),
-        'NAME': 'enchiridion-tv-db',
+        'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'enchirdion-tv-db-server.database.windows.net,1433',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'MARS_Connection': 'True',
-            'encrypt': 'True',
-            'trust_cert': 'False',
-        },
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 

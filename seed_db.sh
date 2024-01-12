@@ -12,7 +12,7 @@ python manage.py migrate
 echo "Clearing old data and loading fixtures..."
 python manage.py flush --no-input
 
-fixtures=("users" "tokens" "episodes" "playlists" "playlistepisodes")
+fixtures=("users" "episodes" "playlists" "playlistepisodes")
 for fixture in "${fixtures[@]}"
 do
     echo "Loading fixture ${fixture}.json..."
