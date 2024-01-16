@@ -1,25 +1,12 @@
 pipeline {
     agent any
-    environment {
-        // Fetching environment variables from Azure Key Vault
-        MY_SECRET_KEY = credentials('MY-SECRET-KEY')
-        CLIENT_URL = credentials('CLIENT-URL')
-        WWW_CLIENT_URL = credentials('WWW-CLIENT-URL')
-        DEBUG = false
-        TMDB_API_KEY = credentials('TMDB-API-KEY')
-        GOOGLE_CLIENT_ID = credentials('GOOGLE-CLIENT-ID')
-        GOOGLE_CLIENT_SECRET = credentials('GOOGLE-CLIENT-SECRET')
-        DB_ENGINE = credentials('DB-ENGINE')
-        DB_USER = credentials('DB-USER')
-        DB_PASSWORD = credentials('DB-PASSWORD')
-    }
     stages {
         stage('Build and Push Image') {
             steps {
                 script {
-                    // Login to DockerHub and build the image
+                    // Login to DockerHub and build the image with the linux/amd64 platform flag because this is building on my ARM64 machine
                     withDockerRegistry([ credentialsId: "docker-hub-creds", url: "" ]) {
-                        def app = docker.build("macleann/enchiridion-server")
+                        def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
 
                         // Tagging with build number and 'latest'
                         def versionTag = "v${env.BUILD_NUMBER}"
@@ -44,68 +31,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to ACI') {
+        stage('Deploy to Azure') {
             steps {
-                script {
-                    // Login to Azure using Managed Identity
-                    echo 'Logging in to Azure...'
-                    sh 'az login --identity'
-                    echo 'Logged in to Azure'
-
-                    // Delete old container if it exists
-                    echo 'Deleting old container if it exists...'
-                    sh 'az container delete --name enchiridion-server --resource-group EnchiridionTV-Production --yes'
-                    echo 'Deleted old container'
-
-                    // Deploy to ACI
-                    echo 'Deploying to ACI...'
-                    sh '''
-                    az container create --resource-group EnchiridionTV-Production \
-                        --name enchiridion-server \
-                        --image macleann/enchiridion-server:latest \
-                        --environment-variables \
-                            MY_SECRET_KEY=$MY_SECRET_KEY \
-                            CLIENT_URL=$CLIENT_URL \
-                            WWW_CLIENT_URL=$WWW_CLIENT_URL \
-                            DEBUG=$DEBUG \
-                            TMDB_API_KEY=$TMDB_API_KEY \
-                            GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
-                            GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
-                            DB_ENGINE=$DB_ENGINE \
-                            DB_USER=$DB_USER \
-                            DB_PASSWORD=$DB_PASSWORD \
-                        --dns-name-label enchiridion-server \
-                        --ports 8000
-                    '''
-                    echo 'Deployed to ACI'
-
-                    // Copy a template nginx config file over the existing one
-                    echo 'Copying Nginx configuration template...'
-                    sh '''
-                    sudo cp /etc/nginx/sites-available/default.template /etc/nginx/sites-available/default
-                    '''
-
-                    // Obtain the public IP address of the newly created container
-                    sh '''
-                    BACKEND_IP=$(az container show --resource-group EnchiridionTV-Production \
-                        --name enchiridion-server \
-                        --query ipAddress.ip \
-                        --output tsv)
-                    '''
-                    echo "Backend container IP: ${BACKEND_IP}"
-                    sh "sudo /usr/local/bin/update_nginx.sh ${BACKEND_IP}"
-                    echo 'Copied Nginx configuration template'
-                    
-                    // Restart Nginx
-                    echo 'Restarting Nginx...'
-                    sh 'sudo systemctl restart nginx'
-                    echo 'Restarted Nginx'
-
-                    // Log out from Azure CLI
-                    echo 'Logging out from Azure...'
-                    sh 'az logout'
-                    echo 'Logged out from Azure'
+                echo 'Logging into Azure'
+                withCredentials([azureServicePrincipal('azure-creds')]){
+                    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
                 }
+
+                // Restarting the web app to pull the latest image
+                echo 'Deploying to Azure'
+                sh 'az webapp restart --name enchiridion-api --resource-group enchiridion-prod'
+                
+                echo 'Logging out'
+                sh 'az logout'
             }
         }
     }
