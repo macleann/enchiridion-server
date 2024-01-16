@@ -16,6 +16,7 @@ djangorestframework-simplejwt = "*"
 mssql-django = "*"
 pyodbc = "*"
 psycopg2 = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
