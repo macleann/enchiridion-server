@@ -7,7 +7,7 @@ from enchiridionapi.serializers import EpisodeSerializer, LocalEpisodeSerializer
 from enchiridionapi.models import Episode
 import requests, os
 
-TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 class EpisodeView(ViewSet):
     permission_classes = [AllowAny]

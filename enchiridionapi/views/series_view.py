@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from enchiridionapi.serializers import SeriesSerializer
 
-TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 class SeriesView(ViewSet):
     """Series ViewSet
