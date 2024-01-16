@@ -166,11 +166,12 @@ def google_login(request):
     
     # get access and refresh tokens
     url = 'https://oauth2.googleapis.com/token'
+    redirect_uri = os.getenv('CLIENT_URL')
     data = {
         'code': code,
-        'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
-        'client_secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
-        'redirect_uri': 'http://localhost:3000/login',
+        'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+        'client_secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+        'redirect_uri': f'{redirect_uri}/login',
         'grant_type': 'authorization_code'
     }
     

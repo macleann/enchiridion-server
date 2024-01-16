@@ -5,7 +5,7 @@ from rest_framework import status
 from enchiridionapi.models import Playlist, Episode, PlaylistEpisode
 from enchiridionapi.serializers import PlaylistSerializer, LocalEpisodeSerializer
 
-TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 class UserPlaylistView(ViewSet):
 

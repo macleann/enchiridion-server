@@ -1,3 +1,7 @@
 from django.contrib import admin
+from enchiridionapi import models
 
-# Register your models here.
+admin.site.register(models.Playlist)
+admin.site.register(models.PlaylistEpisode)
+admin.site.register(models.Episode)
+admin.site.register(models.Like)
