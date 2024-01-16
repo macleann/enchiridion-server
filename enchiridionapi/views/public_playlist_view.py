@@ -9,7 +9,7 @@ from django.db.models import Count
 from enchiridionapi.models import Playlist
 from enchiridionapi.serializers import PlaylistSerializer
 
-TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 class PublicPlaylistView(ViewSet):
     permission_classes = [AllowAny]

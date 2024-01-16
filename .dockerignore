@@ -1,0 +1,13 @@
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.env
+.git
+.gitignore
+.dockerignore
+Dockerfile
+README.md
+PULL_REQUEST_TEMPLATE.md
+Jenkinsfile
+seed_db.sh
