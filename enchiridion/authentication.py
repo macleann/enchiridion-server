@@ -5,7 +5,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken
 
 class CookieJWTAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        raw_token = request.COOKIES.get('access_token')
+        raw_token = request.COOKIES.get('refresh_token')
         if not raw_token:
             return None
 
