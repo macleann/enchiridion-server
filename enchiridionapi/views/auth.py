@@ -25,23 +25,15 @@ def verify_token(request):
         return Response({"valid": False}, status=status.HTTP_401_UNAUTHORIZED)
     
     try:
-        refresh = RefreshToken(refresh_token)
+        # Create a RefreshToken instance
+        token = RefreshToken(refresh_token)
         
-        authenticated_user = User.objects.get(id=refresh.payload['user_id'])
-        data = {
-            "id": authenticated_user.id,
-        }
-
-        response = Response(data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-            value=refresh.access_token,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        )
-        return response
+        # Check if the token has expired
+        token.check_exp()
+        token.verify_token_type()
+        
+        # If the token is valid, return a successful response
+        return Response({"valid": True, "id": token.payload['user_id']}, status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return Response({"error": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
@@ -61,37 +53,16 @@ def login_user(request):
     authenticated_user = authenticate(username=username, password=password)
 
     if authenticated_user is not None:
-        refresh = RefreshToken.for_user(authenticated_user)
+        tokens = create_user_tokens(authenticated_user)
         
         data = {
             "id": authenticated_user.id,
+            "valid": True
         }
-        
         response = Response(data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE'],
-            value=refresh.access_token,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        )
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-            value=refresh,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        response.set_cookie(
-            key='csrftoken',
-            value=csrf.get_token(request),
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=False,
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] 
-        )
+        response.set_cookie('refresh_token', tokens["refresh"], httponly=True)
+        response.set_cookie('access_token', tokens["access"], httponly=True)
+        response.set_cookie('csrftoken', csrf.get_token(request), httponly=False)
         return response
     else:
         data = { 'valid': False }
@@ -120,34 +91,14 @@ def register_user(request):
         
         data = {
             "id": new_user.id,
+            "valid": True
         }
 
-        refresh = RefreshToken.for_user(new_user)
+        tokens = create_user_tokens(new_user)
         response = Response(data=data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE'],
-            value=refresh.access_token,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        )
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-            value=refresh,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        response.set_cookie(
-            key='csrftoken',
-            value=csrf.get_token(request),
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=False,
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] 
-        )
+        response.set_cookie('refresh_token', tokens["refresh"], httponly=True)
+        response.set_cookie('access_token', tokens["access"], httponly=True)
+        response.set_cookie('csrftoken', csrf.get_token(request), httponly=False)
         return response
     except IntegrityError:
         return Response({ 'error': 'A user with this username already exists.' }, status=status.HTTP_400_BAD_REQUEST)
@@ -188,34 +139,14 @@ def google_login(request):
     if user is not None:
         data = {
             "id": user.id,
+            "valid": True,
         }
         
-        refresh = RefreshToken.for_user(user)
+        tokens = create_user_tokens(user)
         response = Response(data=data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE'],
-            value=refresh.access_token,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        )
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-            value=refresh,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        response.set_cookie(
-            key='csrftoken',
-            value=csrf.get_token(request),
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=False,
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] 
-        )
+        response.set_cookie('refresh_token', tokens["refresh"], httponly=True)
+        response.set_cookie('access_token', tokens["access"], httponly=True)
+        response.set_cookie('csrftoken', csrf.get_token(request), httponly=False)
         return response
     
     # create user
@@ -231,34 +162,14 @@ def google_login(request):
         
         data = {
             "id": new_user.id,
+            "valid": True,
         }
         
-        refresh = RefreshToken.for_user(new_user)
+        tokens = create_user_tokens(new_user)
         response = Response(data, status=status.HTTP_200_OK)
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE'],
-            value=refresh.access_token,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
-        )
-        response.set_cookie(
-            key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-            value=refresh,
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTPONLY'],
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        response.set_cookie(
-            key='csrftoken',
-            value=csrf.get_token(request),
-            expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly=False,
-            samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] 
-        )
+        response.set_cookie('refresh_token', tokens["refresh"], httponly=True)
+        response.set_cookie('access_token', tokens["access"], httponly=True)
+        response.set_cookie('csrftoken', csrf.get_token(request), httponly=False)
         return response
     except IntegrityError:
         return Response({ 'error': 'A user with this username already exists.' }, status=status.HTTP_400_BAD_REQUEST)

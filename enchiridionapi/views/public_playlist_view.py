@@ -20,17 +20,17 @@ class PublicPlaylistView(ViewSet):
             days_to_int = int(request.query_params.get('days'))
             trending_time = timezone.now() - timedelta(days=days_to_int)
 
-            trending_playlists = (
+            trending_playlists = PlaylistSerializer.setup_eager_loading(
                 Playlist.objects
                 .filter(like__date_liked__gte=trending_time)
-                .annotate(like_count=Count('like'))
-                .order_by('-like_count')
+                .annotate(likes_count=Count('like'))
+                .order_by('-likes_count')
             )
-            serializer = PlaylistSerializer(trending_playlists, many=True)
+            serializer = PlaylistSerializer(trending_playlists, many=True, context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         playlists = PlaylistSerializer.setup_eager_loading(Playlist.objects.annotate(likes_count=Count('like')))
-        serializer = PlaylistSerializer(playlists, many=True)
+        serializer = PlaylistSerializer(playlists, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
