@@ -17,17 +17,17 @@ class AuthViewTest(TestCase):
         self.assertIn('csrftoken', response.cookies)
 
     def test_verify_user(self):
-        self.client.login(username='test_user', password='password')
+        self.client.post('/login', {'username': 'test_user', 'password': 'password'})
         response = self.client.get('/verify')
         self.assertEqual(response.status_code, 200)
 
     def test_logout(self):
-        self.client.login(username='test_user', password='password')
+        self.client.post('/login', {'username': 'test_user', 'password': 'password'})
         response = self.client.post('/logout')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(datetime.datetime.strptime(response.cookies.get('refresh_token')['expires'], '%a, %d %b %Y %H:%M:%S GMT') < datetime.datetime.now())
-        self.assertTrue(datetime.datetime.strptime(response.cookies.get('access_token')['expires'], '%a, %d %b %Y %H:%M:%S GMT') < datetime.datetime.now())
-        self.assertTrue(datetime.datetime.strptime(response.cookies.get('csrftoken')['expires'], '%a, %d %b %Y %H:%M:%S GMT') < datetime.datetime.now())
+        self.assertEqual(response.cookies['refresh_token'].value, '')
+        self.assertEqual(response.cookies['access_token'].value, '')
+        self.assertEqual(response.cookies['csrftoken'].value, '')
 
 class GoogleLoginTest(TestCase):
     @patch('requests.post')
@@ -48,3 +48,7 @@ class GoogleLoginTest(TestCase):
 
         # Assert that the response status code is 200
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'valid')
+        self.assertIn('refresh_token', response.cookies)
+        self.assertIn('access_token', response.cookies)
+        self.assertIn('csrftoken', response.cookies)
