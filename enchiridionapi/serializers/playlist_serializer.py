@@ -13,7 +13,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
         fields = ['id', 'user_id', 'name', 'description', 'episodes', 'likes_count', 'is_liked']
 
     def get_episodes(self, obj):
-        episode_playlist = obj.playlist_episodes
+        episode_playlist = obj.playlistepisode_set.all()
         serializer = LocalEpisodeSerializer([ep.episode for ep in episode_playlist], many=True)
         return serializer.data
     
