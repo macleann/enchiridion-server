@@ -1,10 +1,7 @@
-import os
 from django.test import TestCase, Client
 from django.urls import reverse
 from unittest.mock import patch
 from enchiridionapi.models import Episode
-
-TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 class EpisodeViewTest(TestCase):
     def setUp(self):
