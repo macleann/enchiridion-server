@@ -14,15 +14,9 @@ class SeasonSerializerTest(TestCase):
             "episode_count": 10,
             "poster_path": "test-season-still-path-1"
         }
-        self.tmdb_season = {
-            "id": 1,
-            "air_date": "2000-01-01",
-            "name": "test season 1 name",
-            "overview": "test season 1 overview",
-            "season_number": 1,
-            "episodes": [],
-            "poster_path": "test-season-still-path-1"
-        }
+        self.tmdb_season = self.tmdb_simple_season.copy()
+        self.tmdb_season.pop("episode_count")
+        self.tmdb_season["episodes"] = []
         for i in range(1, 4):
             episode_dict = {
                 "id": i,
