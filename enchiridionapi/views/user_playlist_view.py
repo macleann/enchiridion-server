@@ -10,12 +10,8 @@ TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 class UserPlaylistView(ViewSet):
 
     def list(self, request):
-        if not request.user.is_authenticated:
-            return Response({"message": "You need to be logged in to view your playlists."},
-                            status=status.HTTP_403_FORBIDDEN)
-        
         playlists = Playlist.objects.filter(user_id=request.user.id)
-        serializer = PlaylistSerializer(playlists, many=True)
+        serializer = PlaylistSerializer(playlists, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -45,7 +41,7 @@ class UserPlaylistView(ViewSet):
 
             PlaylistEpisode.objects.create(playlist=playlist, episode=episode, order_number=order_number)
 
-        playlist_serializer = PlaylistSerializer(playlist)
+        playlist_serializer = PlaylistSerializer(playlist, context={'request': request})
 
         return Response(playlist_serializer.data, status=status.HTTP_201_CREATED)
 
@@ -99,7 +95,7 @@ class UserPlaylistView(ViewSet):
             playlist.save()
 
             # Serialize the playlist data to return it
-            serializer = PlaylistSerializer(playlist)
+            serializer = PlaylistSerializer(playlist, context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Playlist.DoesNotExist:

@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Placeholder for test commands
                     echo 'Running back-end tests...'
-                    // Add test commands here
+                    sh 'python manage.py test'
                 }
             }
         }
