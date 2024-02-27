@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     // Login to DockerHub and build the image with the linux/amd64 platform flag because this is building on my ARM64 machine
-                    withDockerRegistry([ credentialsId: "docker-hub-creds", url: "" ]) {
+                    withDockerRegistry([ credentialsId: "docker-hub-creds", url: "https://index.docker.io/v2/" ]) {
                         def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
 
                         // Tagging with build number and 'latest'
