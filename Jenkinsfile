@@ -5,21 +5,19 @@ pipeline {
             steps {
                 script {
                     // Login to DockerHub and build the image with the linux/amd64 platform flag because this is building on my ARM64 machine
-                    withDockerRegistry([ credentialsId: "docker-hub-creds", url: "https://index.docker.io/v2/" ]) {
-                        docker.withServer('desktop-linux') {
-                            def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
+                    withDockerRegistry([ credentialsId: "docker-hub-creds", url: "" ]) {
+                        def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
 
-                            // Tagging with build number and 'latest'
-                            def versionTag = "v${env.BUILD_NUMBER}"
-                            def latestTag = "latest"
+                        // Tagging with build number and 'latest'
+                        def versionTag = "v${env.BUILD_NUMBER}"
+                        def latestTag = "latest"
 
-                            app.tag(versionTag)
-                            app.tag(latestTag)
+                        app.tag(versionTag)
+                        app.tag(latestTag)
 
-                            // Push both tags to DockerHub
-                            app.push(versionTag)
-                            app.push(latestTag)
-                        }
+                        // Push both tags to DockerHub
+                        app.push(versionTag)
+                        app.push(latestTag)
                     }
                 }
             }
