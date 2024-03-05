@@ -1,26 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build and Push Image') {
-            steps {
-                script {
-                    // Login to DockerHub and build the image with the linux/amd64 platform flag because this is building on my ARM64 machine
-                    withDockerRegistry([ credentialsId: "docker-hub-creds", url: "" ]) {
-                        def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
-
-                        // Tagging with build number and 'latest'
-                        def versionTag = "v${env.BUILD_NUMBER}"
-                        def latestTag = "latest"
-
-                        app.tag(versionTag)
-                        app.tag(latestTag)
-
-                        // Push both tags to DockerHub
-                        app.push(versionTag)
-                        app.push(latestTag)
-                    }
-                }
-            }
+        stage('Environment Check') { 
+           steps {
+               sh 'env'
+           }
         }
         stage('Test') {
             steps {
