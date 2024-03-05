@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     // Login to DockerHub and build the image with the linux/amd64 platform flag because this is building on my ARM64 machine
-                    def app = docker.build("docker macleann/enchiridion-server", "--platform linux/amd64 .")
+                    def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
 
                     // Tagging with build number and 'latest'
                     def versionTag = "v${env.BUILD_NUMBER}"
