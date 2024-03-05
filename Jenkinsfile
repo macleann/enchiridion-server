@@ -9,21 +9,24 @@ pipeline {
         stage('Build and Push Image') {
             steps {
                 script {
-                    withDockerRegistry([url: "", credentialsId: 'docker-hub-creds']) {
-                        // Login to DockerHub and build the image with the linux/amd64 platform flag
-                        def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
-
-                        // Tagging with build number and 'latest'
-                        def versionTag = "v${env.BUILD_NUMBER}"
-                        def latestTag = "latest"
-
-                        app.tag(versionTag)
-                        app.tag(latestTag)
-
-                        // Push both tags to DockerHub
-                        app.push(versionTag)
-                        app.push(latestTag)
+                    // Login to DockerHub
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
                     }
+
+                    // Build the image with the linux/amd64 platform flag
+                    def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
+
+                    // Tagging with build number and 'latest'
+                    def versionTag = "v${env.BUILD_NUMBER}"
+                    def latestTag = "latest"
+
+                    app.tag(versionTag)
+                    app.tag(latestTag)
+
+                    // Push both tags to DockerHub
+                    app.push(versionTag)
+                    app.push(latestTag)
                 }
             }
         }
