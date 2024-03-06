@@ -17,6 +17,7 @@ mssql-django = "*"
 pyodbc = "*"
 psycopg2 = "*"
 django-debug-toolbar = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
