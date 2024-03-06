@@ -34,9 +34,11 @@ pipeline {
             steps {
                 script {
                     // Placeholder for test commands
-                    echo 'Running back-end tests...'
-                    sh 'pipenv install'
-                    sh 'pipenv run python manage.py test'
+                    azureKeyVault([[envVariable: 'CLIENT_URL', name: 'CLIENT-URL', secretType: 'Secret'], [envVariable: 'DB_ENGINE', name: 'DB-ENGINE', secretType: 'Secret'], [envVariable: 'DB_HOST', name: 'DB-HOST', secretType: 'Secret'], [envVariable: 'DB_NAME', name: 'DB-NAME', secretType: 'Secret'], [envVariable: 'DB_PASSWORD', name: 'DB-PASSWORD', secretType: 'Secret'], [envVariable: 'DB_PORT', name: 'DB-PORT', secretType: 'Secret'], [envVariable: 'DB_USER', name: 'DB-USER', secretType: 'Secret'], [envVariable: 'GOOGLE_CLIENT_ID', name: 'GOOGLE-CLIENT-ID', secretType: 'Secret'], [envVariable: 'GOOGLE_CLIENT_SECRET', name: 'GOOGLE-CLIENT-SECRET', secretType: 'Secret'], [envVariable: 'MY_SECRET_KEY', name: 'MY-SECRET-KEY', secretType: 'Secret'], [envVariable: 'TMDB_API_KEY', name: 'TMDB-API-KEY', secretType: 'Secret'], [envVariable: 'WWW_CLIENT_URL', name: 'WWW-CLIENT-URL', secretType: 'Secret']]) {
+                        echo 'Running back-end tests...'
+                        sh 'pipenv install'
+                        sh 'pipenv run python manage.py test'
+                    }
                 }
             }
         }
