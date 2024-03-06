@@ -35,9 +35,8 @@ pipeline {
                 script {
                     // Placeholder for test commands
                     echo 'Running back-end tests...'
-                    sh 'pipenv shell'
-                    sh 'python manage.py test'
-                    sh 'exit'
+                    sh 'pipenv install'
+                    sh 'pipenv run python manage.py test'
                 }
             }
         }
