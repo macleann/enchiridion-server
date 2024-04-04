@@ -13,9 +13,11 @@ class PlaylistSerializer(serializers.ModelSerializer):
         fields = ['id', 'user_id', 'name', 'description', 'episodes', 'likes_count', 'is_liked']
 
     def get_episodes(self, obj):
-        episode_playlist = obj.playlistepisode_set.all()
-        serializer = LocalEpisodeSerializer([ep.episode for ep in episode_playlist], many=True)
-        return serializer.data
+        if hasattr(obj, 'playlist_episodes'):
+            return [{'order_number': ep.order_number, **LocalEpisodeSerializer(ep.episode).data} for ep in obj.playlist_episodes]
+        else:
+            episodes = PlaylistEpisode.objects.filter(playlist=obj).order_by('order_number')
+            return [{'order_number': ep.order_number, **LocalEpisodeSerializer(ep.episode).data} for ep in episodes]
     
     def get_is_liked(self, obj):
         user = self.context['request'].user

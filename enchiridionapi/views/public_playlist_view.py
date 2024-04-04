@@ -36,7 +36,9 @@ class PublicPlaylistView(ViewSet):
     def retrieve(self, request, pk=None):
         """Handles GET requests for single playlist"""
         try:
-            playlist = PlaylistSerializer.setup_eager_loading(Playlist.objects.filter(pk=pk)).get()
+            queryset = Playlist.objects.filter(pk=pk)
+            queryset = PlaylistSerializer.setup_eager_loading(queryset)
+            playlist = queryset.get()
             serializer = PlaylistSerializer(playlist, context={'request': request})
             return Response(serializer.data)
         except Playlist.DoesNotExist:
