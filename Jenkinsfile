@@ -9,9 +9,7 @@ pipeline {
             steps {
                 script {
                     // Login to DockerHub
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'sudo docker login -u $USERNAME -p $PASSWORD'
-                    }
+                    sh 'docker login'
 
                     // Build the image with the linux/amd64 platform flag
                     def app = docker.build("macleann/enchiridion-server", "--platform linux/amd64 .")
