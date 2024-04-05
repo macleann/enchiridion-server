@@ -10,7 +10,7 @@ pipeline {
                 script {
                     // Login to DockerHub
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
                     }
 
                     // Build the image with the linux/amd64 platform flag
